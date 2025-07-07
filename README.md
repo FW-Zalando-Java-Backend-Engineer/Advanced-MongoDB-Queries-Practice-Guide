@@ -109,13 +109,6 @@ db.staff.insertMany([
 ```
 
 ---
-Excellent—let’s **continue seamlessly**!
-
-We just finished inserting all 4 collections with rich sample data.
-
-Now we move to:
-
----
 
 ## 🟣 3️⃣ PRACTICE: ADVANCED QUERIES
 
