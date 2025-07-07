@@ -14,9 +14,9 @@ You’ll **insert real sample data** and **practice advanced querying operators*
 
 Each section:
 
-✅ Plain English question
-✅ The exact query to copy
-✅ Explanation of the result
+* ✅ Plain English question
+* ✅ The exact query to copy
+* ✅ Explanation of the result
 
 This is a *complete guided exercise*.
 
@@ -114,9 +114,9 @@ db.staff.insertMany([
 
 Each question below:
 
-✅ Plain English question for the student
-✅ Copy-paste-ready query
-✅ Explanation of what it does
+* ✅ Plain English question for the student
+* ✅ Copy-paste-ready query
+* ✅ Explanation of what it does
 
 ---
 
@@ -504,15 +504,15 @@ db.members.find({ addresses: { $exists: false } })
 
 ## 🟣 6️⃣ TIPS FOR SUCCESS
 
-✅ Use Compass for visual building of filters.
-✅ Always check data with:
+* ✅ Use Compass for visual building of filters.
+* ✅ Always check data with:
 
 ```javascript
 db.collection.find().pretty()
 ```
 
-✅ Break complex queries into parts first.
-✅ Try adding, updating, deleting documents to test.
+* ✅ Break complex queries into parts first.
+* ✅ Try adding, updating, deleting documents to test.
 
 ---
 
