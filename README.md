@@ -523,5 +523,6 @@ db.collection.find().pretty()
 ---
 
 **📌 Happy querying!**
+
 ✅ *Share your favorite query with the class when you finish!*
 
