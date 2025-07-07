@@ -2,52 +2,39 @@
 
 ## Theme: Library Management System
 
-Welcome! In this exercise, you'll **build and query** a MongoDB database for a *Library Management System*.
+**Welcome!**
+In this project, you'll create a MongoDB database to manage a **Library** with 4 rich collections:
 
-You’ll learn to use **advanced query operators** by exploring collections of:
+* 📖 `books`
+* 👩‍🎓 `members`
+* 📦 `borrowRecords`
+* 👥 `staff`
 
-* 📖 Books
-* 👩‍🎓 Members
-* 📦 Borrow Records
-* 👥 Staff
+You’ll **insert real sample data** and **practice advanced querying operators**.
 
-This guide includes:
+Each section:
 
-✅ Step-by-step setup
-✅ Sample data for all collections (lots of records!)
-✅ Practice queries covering *ALL* advanced operators from the tutorial
-✅ Explanations and hints
+✅ Plain English question
+✅ The exact query to copy
+✅ Explanation of the result
+
+This is a *complete guided exercise*.
 
 ---
 
-## 🟣 1️⃣ Create Database
+## 🟣 1️⃣ DATABASE SETUP
 
-Open your **mongosh** and run:
+### ✅ Switch / Create Database
 
 ```javascript
 use libraryDB
 ```
 
-✅ This will switch to (or create) your database called `libraryDB`.
-
 ---
 
-## 🟣 2️⃣ Create Collections and Insert Sample Data
+## 🟣 2️⃣ INSERT SAMPLE DATA
 
-You'll create **4 collections**:
-
-* `books`
-* `members`
-* `borrowRecords`
-* `staff`
-
-Each with **rich sample data**.
-
----
-
-### 📖 A. books Collection
-
-✅ Insert \~14 books:
+### ✅ A. books Collection
 
 ```javascript
 db.books.insertMany([
@@ -70,9 +57,7 @@ db.books.insertMany([
 
 ---
 
-### 👩‍🎓 B. members Collection
-
-✅ Insert \~10 members:
+### ✅ B. members Collection
 
 ```javascript
 db.members.insertMany([
@@ -91,9 +76,7 @@ db.members.insertMany([
 
 ---
 
-### 📦 C. borrowRecords Collection
-
-✅ Insert \~10 borrow records:
+### ✅ C. borrowRecords Collection
 
 ```javascript
 db.borrowRecords.insertMany([
@@ -112,9 +95,7 @@ db.borrowRecords.insertMany([
 
 ---
 
-### 👥 D. staff Collection
-
-✅ Insert \~6 staff records:
+### ✅ D. staff Collection
 
 ```javascript
 db.staff.insertMany([
@@ -128,31 +109,71 @@ db.staff.insertMany([
 ```
 
 ---
+Excellent—let’s **continue seamlessly**!
 
-## ✅ ✅ ✅ Now you have:
+We just finished inserting all 4 collections with rich sample data.
 
-✔️ 4 collections
-✔️ \~40 realistic records to practice with
+Now we move to:
 
 ---
 
-## 🟣 3️⃣ Practice Advanced Queries
+## 🟣 3️⃣ PRACTICE: ADVANCED QUERIES
 
-### ⚡ Comparison Operators
+Each question below:
 
-✅ *Find books cheaper than \$40*
+✅ Plain English question for the student
+✅ Copy-paste-ready query
+✅ Explanation of what it does
+
+---
+
+### ✅ (1) Comparison Operators
+
+**❓ Q1. Find all books cheaper than \$40.**
 
 ```javascript
 db.books.find({ price: { $lt: 40 } })
 ```
 
-💡 *Hint: Use `$lt`, `$gt`, `$lte`, `$gte` to filter numeric fields.*
+🗒️ *Explanation:* Finds books with price less than 40.
 
 ---
 
-### ⚡ Logical Operators
+**❓ Q2. Find books priced between \$30 and \$60 inclusive.**
 
-✅ *Find active members OR those younger than 25*
+```javascript
+db.books.find({ price: { $gte: 30, $lte: 60 } })
+```
+
+🗒️ *Explanation:* `$gte` (≥) and `$lte` (≤) combined to define a price range.
+
+---
+
+### ✅ (2) \$in and \$nin
+
+**❓ Q3. Find books in categories Programming or AI.**
+
+```javascript
+db.books.find({ category: { $in: ["Programming", "AI"] } })
+```
+
+🗒️ *Explanation:* `$in` matches any value in the given array.
+
+---
+
+**❓ Q4. Exclude books in Fantasy category.**
+
+```javascript
+db.books.find({ category: { $nin: ["Fantasy"] } })
+```
+
+🗒️ *Explanation:* `$nin` excludes any of these categories.
+
+---
+
+### ✅ (3) Logical Operators
+
+**❓ Q5. Find active members or those younger than 25.**
 
 ```javascript
 db.members.find({
@@ -163,87 +184,101 @@ db.members.find({
 })
 ```
 
-💡 *Combine conditions with `$or`, `$and`, `$nor`.*
+🗒️ *Explanation:* `$or` lets either condition match.
 
 ---
 
-### ⚡ \$in and \$nin
-
-✅ *Find books in Programming or AI categories*
-
-```javascript
-db.books.find({
-  category: { $in: ["Programming", "AI"] }
-})
-```
-
-✅ *Exclude Fantasy category*
-
-```javascript
-db.books.find({
-  category: { $nin: ["Fantasy"] }
-})
-```
-
----
-
-### ⚡ \$exists
-
-✅ *Find members with addresses*
+**❓ Q6. Find active members older than 30.**
 
 ```javascript
 db.members.find({
-  addresses: { $exists: true }
+  $and: [
+    { status: "active" },
+    { age: { $gt: 30 } }
+  ]
 })
 ```
 
-💡 *Check if a field exists.*
+🗒️ *Explanation:* `$and` requires *both* conditions.
 
 ---
 
-### ⚡ \$type
-
-✅ *Find staff with age stored as int*
+**❓ Q7. Find members who are NOT (active OR younger than 25).**
 
 ```javascript
-db.staff.find({
-  age: { $type: "int" }
+db.members.find({
+  $nor: [
+    { status: "active" },
+    { age: { $lt: 25 } }
+  ]
 })
 ```
 
-💡 *Validate data types.*
+🗒️ *Explanation:* `$nor` returns docs that match *neither* condition.
 
 ---
 
-### ⚡ \$regex
+### ✅ (4) \$exists
 
-✅ *Find books with 'JavaScript' in title (case-insensitive)*
+**❓ Q8. Find members that have an addresses field.**
 
 ```javascript
-db.books.find({
-  title: { $regex: "javascript", $options: "i" }
-})
+db.members.find({ addresses: { $exists: true } })
 ```
 
-💡 *Search patterns in strings.*
+🗒️ *Explanation:* Checks if the field is present.
 
 ---
 
-### ⚡ \$all
+### ✅ (5) \$type
 
-✅ *Find books with both 'epic' and 'adventure' tags*
+**❓ Q9. Find staff with age stored as int.**
 
 ```javascript
-db.books.find({
-  tags: { $all: ["epic", "adventure"] }
-})
+db.staff.find({ age: { $type: "int" } })
 ```
+
+🗒️ *Explanation:* Verifies field data type.
 
 ---
 
-### ⚡ \$elemMatch
+### ✅ (6) \$regex
 
-✅ *Find members with a New York address*
+**❓ Q10. Find books with 'JavaScript' in title (case-insensitive).**
+
+```javascript
+db.books.find({ title: { $regex: "javascript", $options: "i" } })
+```
+
+🗒️ *Explanation:* Pattern match ignoring case.
+
+---
+
+**❓ Q11. Find staff whose name starts with 'M'.**
+
+```javascript
+db.staff.find({ name: { $regex: "^M" } })
+```
+
+🗒️ *Explanation:* `^` anchors to the start.
+
+---
+
+### ✅ (7) \$all
+
+**❓ Q12. Find books with BOTH 'epic' and 'adventure' tags.**
+
+```javascript
+db.books.find({ tags: { $all: ["epic", "adventure"] } })
+```
+
+🗒️ *Explanation:* `$all` requires *all* values in array.
+
+---
+
+### ✅ (8) \$elemMatch
+
+**❓ Q13. Find members with an address in New York.**
 
 ```javascript
 db.members.find({
@@ -251,37 +286,61 @@ db.members.find({
 })
 ```
 
-💡 *Match embedded array elements.*
+🗒️ *Explanation:* Matches documents where any element in `addresses` array matches.
 
 ---
 
-### ⚡ \$size
+### ✅ (9) \$size
 
-✅ *Find members with exactly 2 addresses*
+**❓ Q14. Find members with exactly 2 addresses.**
 
 ```javascript
-db.members.find({
-  addresses: { $size: 2 }
-})
+db.members.find({ addresses: { $size: 2 } })
 ```
+
+🗒️ *Explanation:* Matches arrays of given length.
 
 ---
 
-### ⚡ \$not
+### ✅ (10) \$not
 
-✅ *Find staff not employed*
+**❓ Q15. Find staff who are NOT employed.**
 
 ```javascript
-db.staff.find({
-  employed: { $not: { $eq: true } }
-})
+db.staff.find({ employed: { $not: { $eq: true } } })
 ```
+
+🗒️ *Explanation:* Negates the condition.
 
 ---
 
-### ⚡ Aggregation Example
+### ✅ (11) Sorting
 
-✅ *Count borrow records per status*
+**❓ Q16. List all books by price descending.**
+
+```javascript
+db.books.find().sort({ price: -1 })
+```
+
+🗒️ *Explanation:* `-1` = descending order.
+
+---
+
+### ✅ (12) Projection
+
+**❓ Q17. Show only title and price of books.**
+
+```javascript
+db.books.find({}, { title: 1, price: 1, _id: 0 })
+```
+
+🗒️ *Explanation:* Includes only specified fields.
+
+---
+
+### ✅ (13) Aggregation: Group
+
+**❓ Q18. Count borrowRecords by status.**
 
 ```javascript
 db.borrowRecords.aggregate([
@@ -289,56 +348,187 @@ db.borrowRecords.aggregate([
 ])
 ```
 
-💡 *Summarize data.*
+🗒️ *Explanation:* Groups by status, counts.
 
 ---
 
-### ⚡ Sorting
+### ✅ (14) Aggregation: Match + Project
 
-✅ *List books by price descending*
+**❓ Q19. Show only Fantasy books with their title and price.**
 
 ```javascript
-db.books.find().sort({ price: -1 })
+db.books.aggregate([
+  { $match: { category: "Fantasy" } },
+  { $project: { title: 1, price: 1, _id: 0 } }
+])
+```
+
+🗒️ *Explanation:* Filters, then reshapes fields.
+
+---
+
+### ✅ (15) Aggregation: Sort
+
+**❓ Q20. Sort staff by age ascending.**
+
+```javascript
+db.staff.aggregate([
+  { $sort: { age: 1 } }
+])
+```
+
+🗒️ *Explanation:* 1 = ascending order.
+
+---
+
+### ✅ (16) Aggregation: Complex Example
+
+**❓ Q21. For Programming books, show average price.**
+
+```javascript
+db.books.aggregate([
+  { $match: { category: "Programming" } },
+  { $group: { _id: "$category", avgPrice: { $avg: "$price" } } }
+])
+```
+
+🗒️ *Explanation:* Filters to category, then groups and averages.
+
+---
+
+## 🟣 4️⃣ COMBO / ADVANCED CHALLENGES
+
+✅ These encourage students to *mix* operators.
+
+---
+
+**✅ Challenge 1**
+**❓ Find active members older than 25 with at least 1 address.**
+
+```javascript
+db.members.find({
+  $and: [
+    { status: "active" },
+    { age: { $gt: 25 } },
+    { addresses: { $exists: true, $ne: [] } }
+  ]
+})
+```
+
+💡 *Explanation:* Combines `$and`, `$gt`, `$exists`, `$ne`.
+
+---
+
+**✅ Challenge 2**
+**❓ Find books in Programming or AI categories priced below \$50.**
+
+```javascript
+db.books.find({
+  $and: [
+    { category: { $in: ["Programming", "AI"] } },
+    { price: { $lt: 50 } }
+  ]
+})
 ```
 
 ---
 
-### ⚡ Projection
-
-✅ *Show only title and price of books*
+**✅ Challenge 3**
+**❓ Count number of active vs inactive members.**
 
 ```javascript
-db.books.find({}, { title: 1, price: 1, _id: 0 })
+db.members.aggregate([
+  { $group: { _id: "$status", count: { $sum: 1 } } }
+])
 ```
 
 ---
 
-## 🟣 4️⃣ 📝 Suggested Student Challenges
+**✅ Challenge 4**
+**❓ Find borrowRecords with null returnDate (currently borrowed).**
 
-✅ "Find books priced between \$30 and \$60."
-✅ "List active members older than 30."
-✅ "Find borrowRecords with null returnDate (currently borrowed)."
-✅ "Aggregate staff by role and count them."
-✅ "Regex search staff whose name starts with 'M'."
+```javascript
+db.borrowRecords.find({ returnDate: null })
+```
 
 ---
 
-## ✅ 5️⃣ 📌 Tips
+**✅ Challenge 5**
+**❓ Find books that are available and have both 'classic' and 'architecture' tags.**
 
-✅ Use **MongoDB Compass** for visual filtering and aggregation!
-✅ Use **mongosh** for scripting.
-✅ Always verify inserts with:
+```javascript
+db.books.find({
+  $and: [
+    { available: true },
+    { tags: { $all: ["classic", "architecture"] } }
+  ]
+})
+```
+
+---
+
+## 🟣 5️⃣ BONUS STUDENT QUESTIONS
+
+✅ *Q: How do you exclude unavailable books?*
+
+```javascript
+db.books.find({ available: { $eq: true } })
+```
+
+---
+
+✅ *Q: How would you find staff whose name contains "an" anywhere?*
+
+```javascript
+db.staff.find({ name: { $regex: "an", $options: "i" } })
+```
+
+---
+
+✅ *Q: How do you find borrowRecords for a given member? (e.g., Alice)*
+
+```javascript
+db.borrowRecords.find({ memberId: "Alice" })
+```
+
+---
+
+✅ *Q: How do you get the highest priced book?*
+
+```javascript
+db.books.find().sort({ price: -1 }).limit(1)
+```
+
+---
+
+✅ *Q: How to list members who don't have addresses field at all?*
+
+```javascript
+db.members.find({ addresses: { $exists: false } })
+```
+
+---
+
+## 🟣 6️⃣ TIPS FOR SUCCESS
+
+✅ Use Compass for visual building of filters.
+✅ Always check data with:
 
 ```javascript
 db.collection.find().pretty()
 ```
 
----
-
-## 🎯 Goal
-
-> Practice **ALL** advanced query operators in MongoDB, understand their **real-life use** in a **Library Management System**.
+✅ Break complex queries into parts first.
+✅ Try adding, updating, deleting documents to test.
 
 ---
 
-✅ **Happy querying!**
+## ✅ 🎯 GOAL
+
+> By completing this guide, you'll know **all** the advanced querying operators from the tutorial, and be able to apply them confidently to real-world MongoDB schemas.
+
+---
+
+**📌 Happy querying!**
+✅ *Share your favorite query with the class when you finish!*
+
